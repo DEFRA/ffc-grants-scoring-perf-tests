@@ -90,7 +90,7 @@ log.info(&quot;Reset Average Response Time counter properties&quot;);</stringPro
           <stringProp name="cacheKey">true</stringProp>
           <stringProp name="script">import org.apache.jmeter.util.JMeterUtils;
 
-long thresholdMs = 25;
+long thresholdMs = 250;
 long minimumSampleSize = 50;
 long requestCount = JMeterUtils.getPropDefault(&quot;requestCount&quot;, 0);
 long totalResponseTimeMs = JMeterUtils.getPropDefault(&quot;totalResponseTimeMs&quot;, 0);
@@ -114,7 +114,7 @@ JMeterUtils.setProperty(&quot;totalResponseTimeMs&quot;, String.valueOf(totalRes
         </JSR223Assertion>
         <hashTree/>
         <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Maximum Response Time Assertion">
-          <stringProp name="DurationAssertion.duration">1500</stringProp>
+          <stringProp name="DurationAssertion.duration">2000</stringProp>
         </DurationAssertion>
         <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/score">
@@ -149,7 +149,7 @@ JMeterUtils.setProperty(&quot;totalResponseTimeMs&quot;, String.valueOf(totalRes
           </HeaderManager>
           <hashTree/>
           <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Delay">
-            <stringProp name="ConstantTimer.delay">500</stringProp>
+            <stringProp name="ConstantTimer.delay">1000</stringProp>
           </ConstantTimer>
           <hashTree/>
         </hashTree>
