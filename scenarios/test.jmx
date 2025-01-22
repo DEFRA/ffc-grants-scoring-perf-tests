@@ -27,7 +27,7 @@
       </CookieManager>
       <hashTree/>
       <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP Request Defaults">
-        <stringProp name="HTTPSampler.domain">ffc-grants-scoring.${__P(env)}.cdp-int.defra.cloud</stringProp>
+        <stringProp name="HTTPSampler.domain">ffc-grants-scoring.perf-test.cdp-int.defra.cloud</stringProp>
         <stringProp name="HTTPSampler.protocol">https</stringProp>
         <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
           <collectionProp name="Arguments.arguments"/>
@@ -35,6 +35,31 @@
         <stringProp name="HTTPSampler.implementation">HttpClient4</stringProp>
       </ConfigTestElement>
       <hashTree/>
+      <SetupThreadGroup guiclass="SetupThreadGroupGui" testclass="SetupThreadGroup" testname="setUp Thread Group">
+        <intProp name="ThreadGroup.num_threads">1</intProp>
+        <intProp name="ThreadGroup.ramp_time">1</intProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller">
+          <stringProp name="LoopController.loops">1</stringProp>
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+        </elementProp>
+      </SetupThreadGroup>
+      <hashTree>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Reset Average Response Time Counters">
+          <stringProp name="scriptLanguage">groovy</stringProp>
+          <stringProp name="parameters"></stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="script">import org.apache.jmeter.util.JMeterUtils;
+
+JMeterUtils.setProperty(&quot;requestCount&quot;, String.valueOf(0));
+JMeterUtils.setProperty(&quot;totalResponseTimeMs&quot;, String.valueOf(0));
+
+log.info(&quot;Reset Average Response Time counter properties&quot;);</stringProp>
+        </JSR223Sampler>
+        <hashTree/>
+      </hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group">
         <intProp name="ThreadGroup.num_threads">50</intProp>
         <intProp name="ThreadGroup.ramp_time">5</intProp>
@@ -57,6 +82,40 @@
           <boolProp name="Assertion.assume_success">false</boolProp>
           <intProp name="Assertion.test_type">2</intProp>
         </ResponseAssertion>
+        <hashTree/>
+        <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="Rolling Average Response Time Assertion">
+          <stringProp name="scriptLanguage">groovy</stringProp>
+          <stringProp name="parameters"></stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="script">import org.apache.jmeter.util.JMeterUtils;
+
+long thresholdMs = 250;
+long minimumSampleSize = 50;
+long requestCount = JMeterUtils.getPropDefault(&quot;requestCount&quot;, 0);
+long totalResponseTimeMs = JMeterUtils.getPropDefault(&quot;totalResponseTimeMs&quot;, 0);
+
+requestCount++;
+totalResponseTimeMs += SampleResult.getTime();
+
+long averageResponseTimeMs = totalResponseTimeMs / requestCount;
+
+if (requestCount &gt;= minimumSampleSize) {
+    if (averageResponseTimeMs &gt; thresholdMs) {
+        AssertionResult.setFailure(true);
+        AssertionResult.setFailureMessage(&quot;Average response time &quot; + averageResponseTimeMs + &quot; ms exceeds threshold &quot; + thresholdMs + &quot; ms&quot;);
+    }
+    
+    log.info(&quot;Average response time after &quot; + requestCount + &quot; requests: &quot; + averageResponseTimeMs + &quot; ms&quot;);
+}
+
+JMeterUtils.setProperty(&quot;requestCount&quot;, String.valueOf(requestCount));
+JMeterUtils.setProperty(&quot;totalResponseTimeMs&quot;, String.valueOf(totalResponseTimeMs));</stringProp>
+        </JSR223Assertion>
+        <hashTree/>
+        <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Maximum Response Time Assertion">
+          <stringProp name="DurationAssertion.duration">2000</stringProp>
+        </DurationAssertion>
         <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/score">
           <stringProp name="HTTPSampler.path">/scoring/api/v1/example-grant/score</stringProp>
@@ -89,11 +148,11 @@
             </collectionProp>
           </HeaderManager>
           <hashTree/>
+          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Delay">
+            <stringProp name="ConstantTimer.delay">500</stringProp>
+          </ConstantTimer>
+          <hashTree/>
         </hashTree>
-        <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Maximum Response Time Assertion">
-          <stringProp name="DurationAssertion.duration">1000</stringProp>
-        </DurationAssertion>
-        <hashTree/>
         <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="Results Tree">
           <boolProp name="ResultCollector.error_logging">false</boolProp>
           <objProp>
