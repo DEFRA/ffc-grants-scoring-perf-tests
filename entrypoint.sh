@@ -44,5 +44,3 @@ if grep -q ',false,' ${REPORTFILE}; then
     echo "RESULTS CONTAIN FAILURES, EXITING NON-ZERO"
     exit 1
 fi
-
-exit 0
