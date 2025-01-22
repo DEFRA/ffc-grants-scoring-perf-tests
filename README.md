@@ -1,25 +1,12 @@
 # ffc-grants-scoring-perf-tests
 
-A JMeter based test runner for the CDP Platform.
-
-- [Licence](#licence)
-  - [About the licence](#about-the-licence)
-
-## Build
-
-Test suites are built automatically by the [.github/workflows/publish.yml](.github/workflows/publish.yml) action whenever a change are committed to the `main` branch.
-A successful build results in a Docker container that is capable of running your tests on the CDP Platform and publishing the results to the CDP Portal.
-
-## Run
-
-The performance test suites are designed to be run from the CDP Portal.
-The CDP Platform runs test suites in much the same way it runs any other service, it takes a docker image and runs it as an ECS task, automatically provisioning infrastructure as required.
+This repository contains the performance tests for the FFC Grants Scoring service located at https://github.com/DEFRA/ffc-grants-scoring.
 
 ## Local Testing with LocalStack
 
 ### Build a new Docker image
 ```
-docker build . -t my-performance-tests
+docker build . -t ffc-grants-scoring-perf-tests
 ```
 ### Create a Localstack bucket
 ```
@@ -36,10 +23,10 @@ docker run \
 -e AWS_SECRET_ACCESS_KEY='test' \
 -e AWS_SECRET_KEY='test' \
 -e AWS_REGION='eu-west-2' \
-my-performance-tests
+ffc-grants-scoring-perf-tests
 ```
 
-docker run -e S3_ENDPOINT='http://host.docker.internal:4566' -e RESULTS_OUTPUT_S3_PATH='s3://cdp-infra-dev-test-results/cdp-portal-perf-tests/95a01432-8f47-40d2-8233-76514da2236a' -e AWS_ACCESS_KEY_ID='test' -e AWS_SECRET_ACCESS_KEY='test' -e AWS_SECRET_KEY='test' -e AWS_REGION='eu-west-2' -e ENVIRONMENT='perf-test' my-performance-tests
+docker run -e S3_ENDPOINT='http://host.docker.internal:4566' -e RESULTS_OUTPUT_S3_PATH='s3://cdp-infra-dev-test-results/cdp-portal-perf-tests/95a01432-8f47-40d2-8233-76514da2236a' -e AWS_ACCESS_KEY_ID='test' -e AWS_SECRET_ACCESS_KEY='test' -e AWS_SECRET_KEY='test' -e AWS_REGION='eu-west-2' -e ENVIRONMENT='perf-test' ffc-grants-scoring-perf-tests
 
 
 ## Licence
