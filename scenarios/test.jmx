@@ -55,8 +55,9 @@
 
 JMeterUtils.setProperty(&quot;requestCount&quot;, String.valueOf(0));
 JMeterUtils.setProperty(&quot;totalResponseTimeMs&quot;, String.valueOf(0));
+log.info(&quot;Reset Average Response Time counter properties&quot;);
 
-log.info(&quot;Reset Average Response Time counter properties&quot;);</stringProp>
+SampleResult.setIgnore();</stringProp>
         </JSR223Sampler>
         <hashTree/>
       </hashTree>
