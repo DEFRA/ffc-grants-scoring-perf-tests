@@ -90,7 +90,7 @@ log.info(&quot;Reset Average Response Time counter properties&quot;);</stringPro
           <stringProp name="cacheKey">true</stringProp>
           <stringProp name="script">import org.apache.jmeter.util.JMeterUtils;
 
-long thresholdMs = 250;
+long thresholdMs = 25;
 long minimumSampleSize = 50;
 long requestCount = JMeterUtils.getPropDefault(&quot;requestCount&quot;, 0);
 long totalResponseTimeMs = JMeterUtils.getPropDefault(&quot;totalResponseTimeMs&quot;, 0);
