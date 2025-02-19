@@ -1,35 +1,25 @@
 # ffc-grants-scoring-perf-tests
 
-This repository contains the performance tests for the FFC Grants Scoring service located at https://github.com/DEFRA/ffc-grants-scoring.
+This repository contains the performance tests for the FFC Grants Scoring Service located at https://github.com/DEFRA/ffc-grants-scoring.
 
-## Local Testing with LocalStack
+There is a single test that:
 
-### Build a new Docker image
-```
-docker build . -t ffc-grants-scoring-perf-tests
-```
-### Create a Localstack bucket
-```
-aws --endpoint-url=localhost:4566 s3 mb s3://my-bucket
-```
+- Runs for 30 seconds
+- Ramps up to 50 threads submitting requests for scoring with a 3 second interval
+- Asserts that the average response time is under 250 ms
+- Asserts that no single response is greater that 1000 ms
 
-### Run performance tests
+The intention is to prevent an unexpected performance regression being introduced to the service.
 
-```
-docker run \
--e S3_ENDPOINT='http://host.docker.internal:4566' \
--e RESULTS_OUTPUT_S3_PATH='s3://my-bucket' \
--e AWS_ACCESS_KEY_ID='test' \
--e AWS_SECRET_ACCESS_KEY='test' \
--e AWS_SECRET_KEY='test' \
--e AWS_REGION='eu-west-2' \
-ffc-grants-scoring-perf-tests
-```
+### Running locally
 
-docker run -e S3_ENDPOINT='http://host.docker.internal:4566' -e RESULTS_OUTPUT_S3_PATH='s3://cdp-infra-dev-test-results/cdp-portal-perf-tests/95a01432-8f47-40d2-8233-76514da2236a' -e AWS_ACCESS_KEY_ID='test' -e AWS_SECRET_ACCESS_KEY='test' -e AWS_SECRET_KEY='test' -e AWS_REGION='eu-west-2' -e ENVIRONMENT='perf-test' ffc-grants-scoring-perf-tests
+Use JMeter GUI. Set the `Server Name` in `HTTP Request Defaults` to an instance of service `ffc-grants-scoring`, either hosted or local, and use JMeter to run the test. 
 
+### CDP Portal
 
-## Licence
+Tests are run from the CDP Portal under the `Test Suites` section. Before any changes can be run, a new docker image must be built, this will happen automatically when a pull request is merged into the `main` branch. The reports from the test run are then available through the portal.
+
+### Licence
 
 THIS INFORMATION IS LICENSED UNDER THE CONDITIONS OF THE OPEN GOVERNMENT LICENCE found at:
 
@@ -39,7 +29,7 @@ The following attribution statement MUST be cited in your products and applicati
 
 > Contains public sector information licensed under the Open Government licence v3
 
-### About the licence
+#### About the licence
 
 The Open Government Licence (OGL) was developed by the Controller of Her Majesty's Stationery Office (HMSO) to enable
 information providers in the public sector to license the use and re-use of their information under a common open
