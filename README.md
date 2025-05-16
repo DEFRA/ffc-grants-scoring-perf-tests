@@ -1,10 +1,10 @@
 # ffc-grants-scoring-perf-tests
 
-This repository contains the performance tests for the FFC Grants Scoring Service located at https://github.com/DEFRA/ffc-grants-scoring.
+This is the performance test suite for the FFC Grants Scoring Service located at https://github.com/DEFRA/ffc-grants-scoring and maintained by Grant Application Enablement.
 
 There is a single test that:
 
-- Runs for 30 seconds
+- Runs for 60 seconds
 - Ramps up to 50 threads submitting requests for scoring with a 3 second interval
 - Asserts that the average response time is under 250 ms
 - Asserts that no single response is greater that 1000 ms
