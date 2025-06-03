@@ -135,16 +135,19 @@ JMeterUtils.setProperty(&quot;totalResponseTimeMs&quot;, String.valueOf(totalRes
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
                 <stringProp name="Argument.value">{&#xd;
-    &quot;data&quot;: {&#xd;
-        &quot;main&quot;: {&#xd;
-          &quot;produceProcessedRadiosField&quot;: &quot;produceProcessed-A3&quot;,&#xd;
-          &quot;howAddingValueRadiosField&quot;: &quot;howAddingValue-A2&quot;,&#xd;
-          &quot;projectImpactCheckboxesField&quot;: [&quot;projectImpact-A2&quot;, &quot;projectImpact-A3&quot;],&#xd;
-          &quot;futureCustomersRadiosField&quot;: &quot;futureCustomers-A1&quot;,&#xd;
-          &quot;collaborationRadiosField&quot;: &quot;collaboration-A2&quot;,&#xd;
-          &quot;environmentalImpactCheckboxesField&quot;: [&quot;environmentalImpact-A6&quot;, &quot;environmentalImpact-A7&quot;]&#xd;
-        }&#xd;
-    }&#xd;
+	&quot;data&quot;: {&#xd;
+		&quot;main&quot;: {&#xd;
+			&quot;isProvidingServicesToOtherFarmers&quot;: &quot;true&quot;,&#xd;
+			&quot;isBuildingFruitStorage&quot;: &quot;false&quot;,&#xd;
+			&quot;processedProduceType&quot;: &quot;produceProcessed-A1&quot;,&#xd;
+			&quot;valueAdditionMethod&quot;: &quot;howAddingValue-A1&quot;,&#xd;
+			&quot;impactType&quot;: [&quot;projectImpact-A1&quot;, &quot;projectImpact-A2&quot;],&#xd;
+			&quot;manualLabourEquivalence&quot;: &quot;manualLabourAmount-A1&quot;,&#xd;
+			&quot;futureCustomerTypes&quot;: [&quot;futureCustomers-A1&quot;, &quot;futureCustomers-A2&quot;],&#xd;
+			&quot;collaboration&quot;: &quot;false&quot;,&#xd;
+			&quot;environmentalImpactTypes&quot;: [&quot;environmentalImpact-A1&quot;, &quot;environmentalImpact-A2&quot;]&#xd;
+		}&#xd;
+	}&#xd;
 }&#xd;
 </stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
